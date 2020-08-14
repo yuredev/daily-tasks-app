@@ -9,6 +9,12 @@ class App extends StatelessWidget {
       home: HomePage(),
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
+        textTheme: ThemeData.light().textTheme.copyWith(
+          button: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        buttonColor: Colors.deepPurple,
       ),
     );
   }

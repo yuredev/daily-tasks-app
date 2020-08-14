@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:math';
 import '../models/task.dart';
-import 'day_tasks.dart';
+import 'day_tasks_list.dart';
 import '../utils.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Task> _allTasks = [
+  final List<Task> allTasks = [
     Task(
       title: 'Comprar Pão',
       id: Random().nextDouble().toString(),
@@ -31,15 +31,6 @@ class _HomePageState extends State<HomePage> {
       description: 'Correr feito um condenado',
       wasFinished: false,
       date: DateTime.now(),
-    ),
-    Task(
-      title: 'Estudar Flutter',
-      id: Random().nextDouble().toString(),
-      description: 'Estudar 2 horas de Flutter',
-      wasFinished: false,
-      date: DateTime.now().add(
-        Duration(days: 3),
-      ),
     ),
     Task(
       title: 'Ir para academia',
@@ -59,9 +50,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Task> get _tasksOfSelectedDate {
-    return _allTasks
+    return allTasks
         .where((task) => Utils.compareDates(task.date, _selectedDate))
         .toList();
+  }
+
+  void _addTask(String title, String decription, DateTime date) {
+    final newTask = Task(
+      id: Random().nextDouble().toString(),
+      date: date,
+      title: title,
+      description: decription,
+    );
+    setState(() => this.allTasks.add(newTask));
+    Navigator.of(context).pop();
   }
 
   @override
@@ -83,11 +85,11 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Container(
                       height: avaliableHeight * 0.15,
-                      child: DaySelector(),
+                      child: DaySelector(this.allTasks),
                     ),
                     Container(
                       height: avaliableHeight * 0.85,
-                      child: DayTasks(
+                      child: DayTasksList(
                         dayTasks: _tasksOfSelectedDate,
                         onTaskCheck: setTaskFinishedStatus,
                       ),
@@ -101,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) => TasksForm(),
+                  builder: (context) => TasksForm(this._addTask),
                 );
               },
             ) : Container(),

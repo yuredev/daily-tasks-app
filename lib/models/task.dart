@@ -12,6 +12,6 @@ class Task {
     @required this.title,
     @required this.date,
     this.description,
-    this.wasFinished,
+    this.wasFinished = false,
   });
 }
