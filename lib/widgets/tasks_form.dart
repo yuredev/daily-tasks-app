@@ -17,7 +17,20 @@ class _TasksFormState extends State<TasksForm> {
       elevation: 5,
       child: Column(
         children: [
-          AdaptativeTextField(),
+          AdaptativeTextField(
+            fieldName: 'Title',
+            controller: this.taskTitle,
+            textInputType: TextInputType.numberWithOptions(
+              decimal: true,
+            ),
+          ),
+          AdaptativeTextField(
+            fieldName: 'Description', 
+            controller: this.taskDescription,
+            textInputType: TextInputType.text,
+            maxLines: 6,
+          ),
+          
         ],
       ),
     );

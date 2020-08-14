@@ -8,12 +8,14 @@ class AdaptativeTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType textInputType;
   final void Function() onSubmit;
+  final int maxLines;
 
   AdaptativeTextField({
     @required this.fieldName,
     @required this.controller,
     this.textInputType,
     this.onSubmit,
+    this.maxLines = 1,
   });
 
   @override
@@ -21,12 +23,14 @@ class AdaptativeTextField extends StatelessWidget {
     return Platform.isAndroid ? TextField(
       controller: this.controller,
       keyboardType: this.textInputType,
+      maxLines: this.maxLines,
       decoration: InputDecoration(
-        labelText: this.fieldName,
+        hintText: this.fieldName,
       ),
     ) : CupertinoTextField(
       controller: this.controller,
       placeholder: this.fieldName,
+      maxLines: this.maxLines,
       keyboardType: this.textInputType,
     );
   }
