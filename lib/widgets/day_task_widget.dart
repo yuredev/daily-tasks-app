@@ -21,7 +21,7 @@ class DayTaskWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () => onTaskCheck(task, !task.wasFinished),
         child: ListTile(
-          leading: IconButton(icon: Icon(Icons.assignment)),
+          leading: Icon(Icons.assignment),
           title: Text(task.title),
           trailing: Checkbox(
             value: task.wasFinished,
