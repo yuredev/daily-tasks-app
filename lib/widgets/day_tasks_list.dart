@@ -7,8 +7,8 @@ class DayTasksList extends StatelessWidget {
   final void Function(Task, bool) onTaskCheck;
 
   DayTasksList({
-    this.dayTasks,
-    this.onTaskCheck,
+    @required this.dayTasks,
+    @required this.onTaskCheck,
   });
 
   @override

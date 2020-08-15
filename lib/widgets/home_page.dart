@@ -3,6 +3,7 @@ import 'package:daily_tasks_app/widgets/day_selector.dart';
 import 'package:daily_tasks_app/widgets/tasks_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 import 'dart:math';
 import '../models/task.dart';
@@ -30,7 +31,9 @@ class _HomePageState extends State<HomePage> {
       id: Random().nextDouble().toString(),
       description: 'Correr feito um condenado',
       wasFinished: false,
-      date: DateTime.now(),
+      date: DateTime.now().add(
+        Duration(days: 1),
+      ),
     ),
     Task(
       title: 'Ir para academia',
@@ -66,6 +69,10 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
+  void _setSelectedDate(DateTime newSelectedDay) {
+    setState(() => this._selectedDate = newSelectedDay);
+  }
+
   @override
   Widget build(BuildContext context) {
     final PreferredSizeWidget adaptativeAppBar = AdaptativeAppBar();
@@ -85,28 +92,50 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Container(
                       height: avaliableHeight * 0.15,
-                      child: DaySelector(this.allTasks),
+                      child: DaySelector(
+                        allTasks: this.allTasks,
+                        onDaySelect: this._setSelectedDate,
+                      ),
                     ),
                     Container(
                       height: avaliableHeight * 0.85,
-                      child: DayTasksList(
-                        dayTasks: _tasksOfSelectedDate,
-                        onTaskCheck: setTaskFinishedStatus,
+                      margin: EdgeInsets.only(
+                        top: 10,
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            Utils.compareDates(this._selectedDate, DateTime.now()) ?
+                            'Tasks for Today' :
+                            'Tasks for ${DateFormat('dd/MM/yy').format(this._selectedDate)}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Expanded(
+                            child: DayTasksList(
+                              dayTasks: _tasksOfSelectedDate,
+                              onTaskCheck: setTaskFinishedStatus,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            floatingActionButton: Platform.isAndroid ? FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => TasksForm(this._addTask),
-                );
-              },
-            ) : Container(),
+            floatingActionButton: Platform.isAndroid
+                ? FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => TasksForm(this._addTask),
+                      );
+                    },
+                  )
+                : Container(),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,
           );
