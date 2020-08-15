@@ -20,9 +20,11 @@ class _TasksFormState extends State<TasksForm> {
 
   void _submitTask() {
     String title = taskTitle.text;
-    String decription = taskDescription.text;
+    String description = taskDescription.text;
 
-    widget.onSubmit(title, decription, _date);
+    if (title.isNotEmpty && description.isNotEmpty && _date != null) {
+      widget.onSubmit(title, description, _date);
+    }
   }
 
   void _setSelectedDate(DateTime date) {

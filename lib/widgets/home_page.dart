@@ -33,16 +33,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _addTask(String title, String description, DateTime date) {
-    if (title != null && description != null && date != null) {
-      final newTask = Task(
-        id: Random().nextDouble().toString(),
-        date: date,
-        title: title,
-        description: description,
-      );
-      setState(() => this.allTasks.add(newTask));
-      Navigator.of(context).pop();
-    }
+    final newTask = Task(
+      id: Random().nextDouble().toString(),
+      date: date,
+      title: title,
+      description: description,
+    );
+    setState(() => this.allTasks.add(newTask));
+    Navigator.of(context).pop();
   }
 
   void _setSelectedDate(DateTime newSelectedDay) {

@@ -8,10 +8,11 @@ class DaySelector extends StatelessWidget {
   final void Function(DateTime) onDaySelect;
   final DateTime selectedDate;
 
-  DaySelector(
-      {@required this.allTasks,
-      @required this.onDaySelect,
-      @required this.selectedDate});
+  DaySelector({
+    @required this.allTasks,
+    @required this.onDaySelect,
+    @required this.selectedDate,
+  });
 
   List<Map<String, Object>> get _daysList {
     return List.generate(15, (i) {
@@ -82,24 +83,25 @@ class DaySelector extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${this._getFinishedTasksCount(day)} Finished',
-                      style: TextStyle(
-                        color: Colors.green[400],
+                if (Utils.isPortrait(context))
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${this._getFinishedTasksCount(day)} Finished',
+                        style: TextStyle(
+                          color: Colors.green[400],
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${this._getRemaningTasksCount(day)} Remaining',
-                      style: TextStyle(
-                        color: Colors.red[300],
+                      Text(
+                        '${this._getRemaningTasksCount(day)} Remaining',
+                        style: TextStyle(
+                          color: Colors.red[300],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
               ],
             ),
           ),
