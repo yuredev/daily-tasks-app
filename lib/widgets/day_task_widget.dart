@@ -18,11 +18,15 @@ class DayTaskWidget extends StatelessWidget {
         vertical: 8,
       ),
       elevation: 5,
-      child: ListTile(
-        title: Text(task.title),
-        trailing: Checkbox(
-          value: task.wasFinished,
-          onChanged: (newBool) => onTaskCheck(task, newBool),
+      child: GestureDetector(
+        onTap: () => onTaskCheck(task, !task.wasFinished),
+        child: ListTile(
+          leading: IconButton(icon: Icon(Icons.assignment)),
+          title: Text(task.title),
+          trailing: Checkbox(
+            value: task.wasFinished,
+            onChanged: (newBool) => onTaskCheck(task, newBool),
+          ),
         ),
       ),
     );

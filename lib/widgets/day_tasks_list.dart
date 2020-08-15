@@ -13,12 +13,33 @@ class DayTasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: this.dayTasks.length,
-      itemBuilder: (ctx, index) => DayTaskWidget(
-        task: this.dayTasks[index],
-        onTaskCheck: onTaskCheck,
-      ),
-    );
+    if (this.dayTasks.isNotEmpty) {
+      return ListView.builder(
+        itemCount: this.dayTasks.length,
+        itemBuilder: (ctx, index) => DayTaskWidget(
+          task: this.dayTasks[index],
+          onTaskCheck: onTaskCheck,
+        ),
+      );
+    } else {
+      return Container(
+        child: Column(
+          children: [
+            Icon(
+              Icons.tag_faces,
+              size: 250,
+              color: Color(0x11000000),
+            ),
+            Text(
+              'No Tasks in this Day',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: MediaQuery.of(context).textScaleFactor * 20,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

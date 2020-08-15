@@ -6,19 +6,17 @@ import 'package:intl/intl.dart';
 class DaySelector extends StatelessWidget {
   final List<Task> allTasks;
   final void Function(DateTime) onDaySelect;
+  final DateTime selectedDate;
 
-  DaySelector({
-    @required this.allTasks,
-    @required this.onDaySelect,
-  });
+  DaySelector(
+      {@required this.allTasks,
+      @required this.onDaySelect,
+      @required this.selectedDate});
 
   List<Map<String, Object>> get _daysList {
-    return List.generate(20, (i) {
+    return List.generate(15, (i) {
       DateTime currentDay = DateTime.now().add(Duration(days: i));
-      var currentDayTasks = this
-          .allTasks
-          .where((t) => Utils.compareDates(t.date, currentDay))
-          .toList();
+      var currentDayTasks = this._getTasksFromDay(currentDay);
       return {
         'day': currentDay,
         'tasks': currentDayTasks,
@@ -26,13 +24,27 @@ class DaySelector extends StatelessWidget {
     });
   }
 
-  // int get _dailyTasksFinished  {
-  //   return this._daysList.fold(0, (count, task) {
-  //     if (task.) {
+  List<Task> _getTasksFromDay(DateTime day) {
+    return this.allTasks.where((t) => Utils.compareDates(t.date, day)).toList();
+  }
 
-  //     }
-  //   });
-  // }
+  int _getFinishedTasksCount(DateTime day) {
+    var dayTasks = this._getTasksFromDay(day);
+
+    int taskCount = dayTasks.fold(0, (count, task) {
+      if (task.wasFinished) {
+        return ++count;
+      }
+      return count;
+    });
+    return taskCount;
+  }
+
+  int _getRemaningTasksCount(DateTime day) {
+    int totalDayTasks = this._getTasksFromDay(day).length;
+    int finishedTasks = this._getFinishedTasksCount(day);
+    return totalDayTasks - finishedTasks;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +53,10 @@ class DaySelector extends StatelessWidget {
       itemCount: _daysList.length,
       itemBuilder: (ctx, i) {
         var dayReport = _daysList[i];
+        DateTime day = dayReport['day'];
         return FlatButton(
           padding: EdgeInsets.all(0),
-          onPressed: () => this.onDaySelect(dayReport['day']),
+          onPressed: () => this.onDaySelect(day),
           child: Container(
             padding: EdgeInsets.all(5),
             width: 100,
@@ -53,16 +66,18 @@ class DaySelector extends StatelessWidget {
                 color: Color(0x15000000),
                 width: 1.0,
               ),
-              color: Color(0x44EBEBEB),
+              color: Utils.compareDates(day, this.selectedDate)
+                  ? Color(0x449575CD)
+                  : Color(0x119575CD),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  Utils.compareDates(dayReport['day'], DateTime.now())
+                  Utils.compareDates(day, DateTime.now())
                       ? 'Today'
-                      : DateFormat('dd/MM/yy').format(dayReport['day']),
+                      : DateFormat('dd/MM/yy').format(day),
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -72,13 +87,13 @@ class DaySelector extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '0 Finished',
+                      '${this._getFinishedTasksCount(day)} Finished',
                       style: TextStyle(
                         color: Colors.green[400],
                       ),
                     ),
                     Text(
-                      '0 Remaining',
+                      '${this._getRemaningTasksCount(day)} Remaining',
                       style: TextStyle(
                         color: Colors.red[300],
                       ),

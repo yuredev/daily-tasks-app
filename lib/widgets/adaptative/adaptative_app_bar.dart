@@ -17,7 +17,7 @@ class AdaptativeAppBar extends StatelessWidget implements PreferredSizeWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text('Daily Tasks'),
-        Text('by: yurematias'),
+        Text('by: yuredev'),
       ],
     );
     final PreferredSizeWidget appBar = Platform.isAndroid
