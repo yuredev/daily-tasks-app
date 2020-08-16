@@ -27,7 +27,7 @@ class DayTasksList extends StatelessWidget {
       return Container(
         child: Column(
           children: [
-            Utils.isPortrait(context) ? Icon(
+            Utils.isPortrait(context) ? const Icon(
               Icons.airline_seat_individual_suite,
               size: 250,
               color: Color(0x11000000),

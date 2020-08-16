@@ -25,7 +25,7 @@ class AdaptativeDatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Platform.isAndroid ? FlatButton(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       child: Text(this.title),
       onPressed: () => _openAndroidCalendar(context),
     ) : CupertinoDatePicker(

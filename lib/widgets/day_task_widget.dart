@@ -1,4 +1,5 @@
 import 'package:daily_tasks_app/models/task.dart';
+import 'package:daily_tasks_app/widgets/task_details.dart';
 import 'package:flutter/material.dart';
 
 class DayTaskWidget extends StatelessWidget {
@@ -9,6 +10,14 @@ class DayTaskWidget extends StatelessWidget {
     this.task,
     this.onTaskCheck,
   });
+
+  void _openTaskDetails(BuildContext context) {
+    showModalBottomSheet(context: context, builder: (ctx) => TaskDetails(
+      title: this.task.title,
+      description: this.task.description,
+      wasFinished: this.task.wasFinished,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +30,10 @@ class DayTaskWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () => onTaskCheck(task, !task.wasFinished),
         child: ListTile(
-          leading: Icon(Icons.assignment),
+          leading: IconButton(
+            icon: Icon(Icons.assignment),
+            onPressed: () => this._openTaskDetails(context),
+          ),
           title: Text(task.title),
           trailing: Checkbox(
             value: task.wasFinished,

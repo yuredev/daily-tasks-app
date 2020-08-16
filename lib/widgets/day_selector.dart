@@ -64,12 +64,12 @@ class DaySelector extends StatelessWidget {
             // color: Color.fromRGBO(200, 200, 200, 0.4),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0x15000000),
+                color: const Color(0x15000000),
                 width: 1.0,
               ),
               color: Utils.compareDates(day, this.selectedDate)
-                  ? Color(0x449575CD)
-                  : Color(0x119575CD),
+                  ? const Color(0x449575CD)
+                  : const Color(0x119575CD),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

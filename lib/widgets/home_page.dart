@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               height: avaliableHeight * 0.85,
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 top: 10,
               ),
               child: Column(
@@ -97,22 +97,19 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-    return Platform.isIOS
-        ? CupertinoPageScaffold(child: null)
-        : Scaffold(
-            appBar: AdaptativeAppBar(),
-            body: bodyPage,
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => TasksForm(this._addTask),
-                );
-              },
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+    return Scaffold(
+      appBar: const AdaptativeAppBar(),
+      body: bodyPage,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => TasksForm(this._addTask),
           );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }

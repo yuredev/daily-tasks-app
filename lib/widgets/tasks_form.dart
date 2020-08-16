@@ -22,7 +22,7 @@ class _TasksFormState extends State<TasksForm> {
     String title = taskTitle.text;
     String description = taskDescription.text;
 
-    if (title.isNotEmpty && description.isNotEmpty && _date != null) {
+    if (title.isNotEmpty &&  this._date != null) {
       widget.onSubmit(title, description, _date);
     }
   }

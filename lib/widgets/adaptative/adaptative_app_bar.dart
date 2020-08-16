@@ -6,7 +6,7 @@ class AdaptativeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;
   final List<Widget> actions;
 
-  AdaptativeAppBar({
+  const AdaptativeAppBar({
     this.title,
     this.actions,
   });
